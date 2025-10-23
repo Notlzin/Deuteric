@@ -1,0 +1,31 @@
+# kernel.pyx and also vibecoded LOL and ctrl+c and ctrl+v #
+import sys
+import time
+from shell import launchShell
+from procman cimport initProcesses
+from memman cimport allocateMemory
+
+# entry point part #
+def start():
+    print("\nstarting kernel...")
+    time.sleep(0.2)
+
+    print("initializing subsystems...")
+    time.sleep(0.1)
+    initProcesses(5)
+    allocateMemory(200)
+    print("Process Manager [ProcMan|procman.pyx]... OK")
+    print("Memory Manager [MemMan|memman.pyx]... OK")
+    print("File System [FS]... OK")
+    print("Network Stack [NetSt]... OK\n")
+    time.sleep(0.2)
+
+    print("kernel ready. launching shell...\n")
+    try:
+        # hmmmm uhhh this is optional but lets do it #
+        launchShell()
+    except KeyboardInterrupt:
+        print("\nkernel interruption (0xAAAAA:warning). use 'exit' command in shell to shut kernel down.")
+    except Exception as e:
+        print(f"[KERNEL_PANIC] failed launching shell: {e}:{hex(172)}")
+        sys.exit(1)
