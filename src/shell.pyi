@@ -3,5 +3,5 @@
 def launchShell() -> None:
     pass
 
-def buildPrompt(user="root", distro="pytch", cwd="~") -> None:
+def buildPrompt(user="root", distro="deuteric", cwd="~") -> None:
     pass

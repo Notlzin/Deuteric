@@ -6,7 +6,10 @@ from procman cimport initProcesses
 from memman cimport allocateMemory
 
 # entry point part #
-def start():
+def start(cpu=None,gpu=None):
+    global _cpu, _gpu
+    _cpu, _gpu = cpu, gpu
+
     print("\nstarting kernel...")
     time.sleep(0.2)
 

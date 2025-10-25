@@ -1,0 +1,22 @@
+# test one #
+    cpu = vCPU()
+    gpu = vGPU()
+    cpu.connectDevice("GPU", gpu)
+
+    # Example program: LOAD 5 into R0, then send to GPU, then halt
+    program = [
+        0x10, 0x0, 0x5,          # LOAD R0, 5
+        0x40, 0x0, 0x3, ord('G'), ord('P'), ord('U'),  # OUT R0, "GPU"
+        0x01                      # HLT
+    ]
+
+    cpu.loadProg(program)
+    cpu.run()
+
+# test two #
+    cpu = vCPU()
+    gpu = vGPU()
+    cpu.connectDevice("GPU", gpu)
+
+    cmd = "help"
+    encodeCMD(cpu, cmd)  # prints hex AND renders on vGPU

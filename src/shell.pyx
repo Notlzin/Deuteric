@@ -4,6 +4,13 @@ from procman cimport simulateCPUUsage, processes
 from memman cimport totalMem, usedMem
 from FAT.fs cimport File, Directory, mkdir, ls, cd
 import FAT.fs as pyfs
+from vCPU import vCPU, encodeCMD
+from vGPU import vGPU
+
+# initialization #
+cpu = vCPU()
+gpu = vGPU()
+cpu.connectDevice("GPU",gpu)
 
 def buildPrompt(user="[root]", distro="deuteric", cwd="~"):
     # folder name changing #
@@ -58,6 +65,9 @@ def launchShell():
                 currDir = "~"
             prompt=buildPrompt(cwd=currDir)
             cmd = input(prompt).strip()
+            # translate command into kernel instructions #
+            encodeCMD(cpu=cpu, cmd=cmd)
+
             if cmd == "help":
                 print("help:commands: help, echo, time, ps, mem, exit")
             elif cmd.startswith("echo "):
