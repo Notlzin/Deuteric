@@ -1,0 +1,8 @@
+optimizer_test.txt [this aint a comment LOL]
+
+to run this, use:
+    1: nasm -f win64 optimizer.asm -o optimizer.obj
+    2: gcc optimizer.obj -o optimizer.exe
+    OR: ld optimizer.obj -o optimizer.exe
+
+then bam theres the .exe waiting for you [unused bruh, but hey atleast why not add this]

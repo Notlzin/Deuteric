@@ -1,7 +1,7 @@
 # memman.pyx #
 # memory manager LOL #
 
-totalMem = 1024  # MB
+totalMem = 16777216  # MB
 usedMem = 0
 
 cdef void allocateMemory(int mb):
@@ -17,7 +17,7 @@ cdef void freeMemory(int mb):
     if usedMem < 0:
         usedMem = 0
 
-# also another python wrapper for shell.py #
+# also another python wrapper for shell.py [totally unused] #
 def pyAllocateMem(int mb):
     allocateMemory(mb)
 
