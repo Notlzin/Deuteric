@@ -1,0 +1,14 @@
+{
+    "kernel32": {
+        "version": "1.0.0.0",
+        "description": "Windows[Deuteric] kernel DLL"
+    },
+    "shell32": {
+        "version": "1.0.0",
+        "description": "Windows[Deuteric] shell DLL"
+    },
+    "gfx_drv": {
+        "version": "1.0",
+        "description": "Deuteric GPU driver DLL"
+    }
+}

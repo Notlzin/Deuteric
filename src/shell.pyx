@@ -6,11 +6,14 @@ from FAT.fs cimport File, Directory, mkdir, ls, cd
 import FAT.fs as pyfs
 from vCPU import vCPU, encodeCMD
 from vGPU import vGPU
+from pacman_deuteric.pacmanAPI import pacman
+from pacman_deuteric.repo import Repo
 
 # initialization #
 cpu = vCPU()
 gpu = vGPU()
 cpu.connectDevice("GPU",gpu)
+repo = Repo()
 
 def buildPrompt(user="[root]", distro="deuteric", cwd="~"):
     # folder name changing #
@@ -101,7 +104,37 @@ def launchShell():
             elif cmd == "exit":
                 print("shutting down the kernel...")
                 sys.exit(0)
+            elif cmd.startswith("pacman:trit") or cmd.startswith("pacman"):
+                parts=cmd.replace("pacman:trit","pacman").strip().split()
+                if len(parts) < 2:
+                    print("pacman:trit: usage: commands[install|remove|list|reset|repoList] [packageName]")
+                    continue
+                pacCMD = parts[1]
+                pacPKG = parts[2] if len(parts) > 2 else None
+                if pacPKG:
+                    pacPKG = pacPKG.lower()
+                if pacCMD == "install" and pacPKG:
+                    packageVersion = repo.getVer(pacPKG)
+                    if packageVersion is None:
+                        print(f"[pacman:trit] package '{pacPKG}' unfound in repo.")
+                        continue
+                    if pacman.isInstalled(pacPKG):
+                        print(f"[pacman:trit] package: '{pacPKG}' has already been installed. version: {packageVersion}")
+                        continue
+                    pacman.resolveDeps(pacPKG)
+                    print(f"[pacman:trit] fetching '{pacPKG}' version {packageVersion} from repository...")
+                    pacman.installPac(pacPKG)
+                elif pacCMD == "remove" and pacPKG:
+                    pacman.removePac(pacPKG)
+                elif pacCMD == "list":
+                    pacman.listInstalled()
+                elif pacCMD == "reset":
+                    pacman.reset()
+                elif pacCMD == "repoList" or pacCMD == "repolist" or pacCMD == "repo-list":
+                    repo.listPackages()
+                else:
+                    print(f"[pacman:trit] invalid command or missing (or invalid) package. error: {hex(len('package_not_found_or_command_not_found'))}")
             else:
-                print(f"command not found: {cmd} error: 0x0000000F")
+                print(f"command not found: {cmd} error: {hex(len('cmd_unfound'))}")
         except KeyboardInterrupt:
             print("\nnote: use 'exit' command to exit kernel.")

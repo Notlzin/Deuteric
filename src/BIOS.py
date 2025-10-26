@@ -53,7 +53,6 @@ class BIOS:
 if __name__ == "__main__":
     from vCPU import vCPU
     from vGPU import vGPU
-
     cpu = vCPU()
     gpu = vGPU()
     bios = BIOS(cpu, {"GPU": gpu})
