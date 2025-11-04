@@ -15,6 +15,17 @@ gpu = vGPU()
 cpu.connectDevice("GPU",gpu)
 repo = Repo()
 
+# the gpu version of the input and print LOL
+def gpuPrint(msg):
+    # send str to vGPU.py
+    gpu.receive(msg + '\n')
+
+def gpuInput(prompt):
+    # print prompt via vGPU
+    gpu.receive(prompt)
+    # still capture keyboard input
+    return input()
+
 def buildPrompt(user="[root]", distro="deuteric", cwd="~"):
     # folder name changing #
     folder_name = "~"
@@ -72,17 +83,17 @@ def launchShell():
             encodeCMD(cpu=cpu, cmd=cmd)
 
             if cmd == "help":
-                print("help:commands: help, echo, time, ps, mem, exit")
+                gpuPrint("help:commands: help, echo, time, ps, mem, exit")
             elif cmd.startswith("echo "):
-                print(cmd[5:])
+                gpuPrint(cmd[5:])
             elif cmd == "time":
-                print(time.ctime())
+                gpuPrint(time.ctime())
             elif cmd == "ps":
                 simulateCPUUsage()
                 for p in processes:
                     print(f"{p.pid:02d} {p.name} CPU:{p.cpu_usage}%")
             elif cmd == "mem":
-                print(f"memory-usage: {usedMem}/{totalMem} MB")
+                gpuPrint(f"memory-usage: {usedMem}/{totalMem} MB")
             elif cmd.startswith("ls "):
                 folderName = cmd[len("ls "):].strip()
                 if folderName:
@@ -100,9 +111,9 @@ def launchShell():
                 if folderName:
                     cd(folderName)
                 else:
-                    print("cd_err: missing operand")
+                    gpuPrint("cd_err: missing operand")
             elif cmd == "exit":
-                print("[shell.pyx -> kernel.pyx] shutting down the kernel...")
+                gpuPrint("[shell.pyx -> kernel.pyx] shutting down the kernel...")
                 sys.exit(0)
             elif cmd.startswith("pacman:trit") or cmd.startswith("pacman"):
                 parts=cmd.replace("pacman:trit","pacman").strip().split()
@@ -116,13 +127,13 @@ def launchShell():
                 if pacCMD == "install" and pacPKG:
                     packageVersion = repo.getVer(pacPKG)
                     if packageVersion is None:
-                        print(f"[pacman:trit] package '{pacPKG}' unfound in repo.")
+                        gpuPrint(f"[pacman:trit] package '{pacPKG}' unfound in repo.")
                         continue
                     if pacman.isInstalled(pacPKG):
                         print(f"[pacman:trit] package: '{pacPKG}' has already been installed. version: {packageVersion}")
                         continue
                     pacman.resolveDeps(pacPKG)
-                    print(f"[pacman:trit] fetching '{pacPKG}' version {packageVersion} from repository...")
+                    gpuPrint(f"[pacman:trit] fetching '{pacPKG}' version {packageVersion} from repository...")
                     pacman.installPac(pacPKG)
                 elif pacCMD == "remove" and pacPKG:
                     pacman.removePac(pacPKG)
@@ -133,8 +144,8 @@ def launchShell():
                 elif pacCMD == "repoList" or pacCMD == "repolist" or pacCMD == "repo-list":
                     repo.listPackages()
                 else:
-                    print(f"[pacman:trit] invalid command or missing (or invalid) package. error: {hex(len('package_not_found_or_command_not_found'))}")
+                    gpuPrint(f"[pacman:trit] invalid command or missing (or invalid) package. error: {hex(len('package_not_found_or_command_not_found'))}")
             else:
-                print(f"command not found: {cmd} error: {hex(len('cmd_unfound'))}")
+                gpuPrint(f"command not found: {cmd} error: {hex(len('cmd_unfound'))}")
         except KeyboardInterrupt:
             print("\nnote: use 'exit' command to exit kernel.")

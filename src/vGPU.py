@@ -1,4 +1,7 @@
 # vGPU.py: virtual GPU for Deuteric, screen size= 160px by 80px #
+import sys
+sys.stdout.reconfigure(encoding='utf-8') # type: ignore
+
 class vGPU:
     def __init__(self,w=160,h=80):
         self.width = w
