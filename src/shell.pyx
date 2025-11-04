@@ -102,7 +102,7 @@ def launchShell():
                 else:
                     print("cd_err: missing operand")
             elif cmd == "exit":
-                print("shutting down the kernel...")
+                print("[shell.pyx -> kernel.pyx] shutting down the kernel...")
                 sys.exit(0)
             elif cmd.startswith("pacman:trit") or cmd.startswith("pacman"):
                 parts=cmd.replace("pacman:trit","pacman").strip().split()

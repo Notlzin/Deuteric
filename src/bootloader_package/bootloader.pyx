@@ -29,7 +29,7 @@ cdef class Bootloader:
     cpdef void runBIOS(self):
         self.bootMsg("[bootloader.py]: running BIOS...", <double>0.2)
         bios = BIOS(self.cpu, self.deviceMap)
-        bios.run()
+        bios.runBIOS()
         self.bootMsg("[bootloader.py]: BIOS finished, devices ready.\n", <double>0.2)
 
     cpdef void runPost(self):

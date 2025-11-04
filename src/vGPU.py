@@ -10,7 +10,8 @@ class vGPU:
     def clear(self):
         self.framebuffer = [[' ']*self.width for _ in range(self.height)]
         self.cursorX = 0
-        self.cursorX = 0
+        self.cursorY = 0
+        print("\033[2J\033[H", end="")
 
     def drawChar(self,char):
         if char=='\n':

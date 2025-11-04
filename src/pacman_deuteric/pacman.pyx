@@ -33,7 +33,7 @@ cpdef void listInstalled():
 
 cpdef bint isInstalled(str package):
     # return true if the package is installed aka installer checker #
-    cdef bint result = package in installedPac
+    cdef bint result = package in installedPac # type: ignore
     return result
 
 cpdef void resolveDeps(str package):

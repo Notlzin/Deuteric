@@ -20,9 +20,9 @@ cdef void simulateCPUUsage():
     for i in range(len(processes)):
         processes[i].cpu_usage = rand() % 100
 
-# wrapper functions for shell.py #
-def pyinitProcesses(int n):
-    initProcesses(n)
+# wrapper functions for shell.py [not anymore] #
+# def pyinitProcesses(int n):
+#    initProcesses(n)
 
-def pysimulateCPUUsage():
-    simulateCPUUsage()
+# def pysimulateCPUUsage():
+#   simulateCPUUsage()

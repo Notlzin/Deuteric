@@ -4,11 +4,11 @@ import sys
 sys.path.append(r"D:/Deuteric/src/pacman_deuteric/")
 
 try:
-    import pacman
+    import pacman # type: ignore
 except ImportError:
     import os
     sys.path.append(os.path.dirname(__file__))
-    import pacman
+    import pacman # type: ignore
 
 from repo import Repo
 
@@ -31,16 +31,12 @@ def main():
 
     elif cmd == "remove" and pkg:
         pacman.removePac(pkg)
-
     elif cmd == "list":
         pacman.listInstalled()
-
     elif cmd == "reset":
         pacman.reset()
-
     elif cmd == "repo-list":
         repo.listPackages()
-
     else:
         print("[pacmanAPI] Invalid command or missing package.")
 

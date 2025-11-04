@@ -4,6 +4,7 @@ import time
 from shell import launchShell
 from procman cimport initProcesses
 from memman cimport allocateMemory
+from usrland cimport startUsrland # type: ignore
 
 # entry point part #
 def start(cpu=None,gpu=None):
@@ -19,14 +20,16 @@ def start(cpu=None,gpu=None):
     allocateMemory(200)
     print("Process Manager [ProcMan|procman.pyx]... OK")
     print("Memory Manager [MemMan|memman.pyx]... OK")
-    print("File System [FS]... OK")
-    print("Network Stack [NetSt]... OK\n")
+    print("File System [FS|FAT.fs.pyx]... OK")
+    print("Network Stack [NetSt|NetSt.virtual_net.py]... OK\n")
     time.sleep(0.2)
 
     print("kernel ready. launching shell...\n")
     try:
         # hmmmm uhhh this is optional but lets do it #
-        launchShell()
+        # sorry launchShell()..
+        # launchShell()
+        startUsrland()
     except KeyboardInterrupt:
         print("\nkernel interruption (0xAAAAA:warning). use 'exit' command in shell to shut kernel down.")
     except Exception as e:
