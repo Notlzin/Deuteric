@@ -8,23 +8,25 @@ from vCPU import vCPU, encodeCMD
 from vGPU import vGPU
 from pacman_deuteric.pacmanAPI import pacman
 from pacman_deuteric.repo import Repo
+from libc.stdint cimport uint32_t
 
 # initialization #
 cpu = vCPU()
 gpu = vGPU()
+gpu.hookStdout()
 cpu.connectDevice("GPU",gpu)
 repo = Repo()
 
-# the gpu version of the input and print LOL
+# the gpu version of the input[NO MORE.] and print LOL
 def gpuPrint(msg):
-    # send str to vGPU.py
-    gpu.receive(msg + '\n')
+    for line in str(msg).split("\n"):
+        for c in line:
+            gpu._gpuStdout.vgpu.drawChar(c)
+        gpu._gpuStdout.vgpu.drawChar('\n')
+    gpu._gpuStdout.vgpu.drawChar('\n')  # extra line to separate output
 
-def gpuInput(prompt):
-    # print prompt via vGPU
-    gpu.receive(prompt)
-    # still capture keyboard input
-    return input()
+# the kernel translation part ?!?!?!?
+
 
 def buildPrompt(user="[root]", distro="deuteric", cwd="~"):
     # folder name changing #
@@ -67,7 +69,7 @@ def buildPrompt(user="[root]", distro="deuteric", cwd="~"):
     inputLine = f"{CYAN}╰─> {BRIGHT_BLUE}{distro}:{folder_name}$ {RESET}"
 
     # combine with newlines to look it more... uhh idk [note: better] #
-    return f"{topline}{top}\n{pipeline}\n{inputLine}"
+    return '\n' + f"{topline}{top}\n{pipeline}\n{inputLine}"
 
 def launchShell():
     cwd='~'
@@ -91,7 +93,7 @@ def launchShell():
             elif cmd == "ps":
                 simulateCPUUsage()
                 for p in processes:
-                    print(f"{p.pid:02d} {p.name} CPU:{p.cpu_usage}%")
+                    gpuPrint(f"{p.pid:02d} {p.name} CPU:{p.cpu_usage}%")
             elif cmd == "mem":
                 gpuPrint(f"memory-usage: {usedMem}/{totalMem} MB")
             elif cmd.startswith("ls "):
@@ -148,4 +150,4 @@ def launchShell():
             else:
                 gpuPrint(f"command not found: {cmd} error: {hex(len('cmd_unfound'))}")
         except KeyboardInterrupt:
-            print("\nnote: use 'exit' command to exit kernel.")
+            gpuPrint("\nnote: use 'exit' command to exit kernel.")

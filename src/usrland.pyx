@@ -6,7 +6,6 @@ import os, time
 from shell import launchShell
 from pacman_deuteric.repo import Repo
 
-
 # process
 cdef class Process:
     cdef str name

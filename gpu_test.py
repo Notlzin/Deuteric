@@ -1,6 +1,9 @@
+# test_vgpu.py
 from src.vGPU import vGPU
 
-# obviously vibe coded LOL
 gpu = vGPU(20, 5)
-gpu.receive("Hello Deuteric!\n")
-gpu.receive("This is vGPU 2.0 😎")
+gpu.hookStdout()  # initialize internal GPUStdout
+
+# send strings directly through receive (which now uses GPUStdout internally)
+gpu._gpuStdout.vgpu.drawChar("Hello Deuteric!\n")
+gpu._gpuStdout.write("vGPU STDOUT only 😎")

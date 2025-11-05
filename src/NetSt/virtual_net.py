@@ -102,4 +102,3 @@ if __name__ == "__main__":
     # receive properly from UDP layer
     src_ip, src_port, data = udp2.recvfrom(5678)
     print(f"Packet from {src_ip}:{src_port} -> {data}")
-
