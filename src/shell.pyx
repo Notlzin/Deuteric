@@ -8,7 +8,7 @@ from vCPU import vCPU, encodeCMD
 from vGPU import vGPU
 from pacman_deuteric.pacmanAPI import pacman
 from pacman_deuteric.repo import Repo
-from libc.stdint cimport uint32_t
+from dgl_api.dgl import dGL
 
 # initialization #
 cpu = vCPU()
@@ -117,6 +117,21 @@ def launchShell():
             elif cmd == "exit":
                 gpuPrint("[shell.pyx -> kernel.pyx] shutting down the kernel...")
                 sys.exit(0)
+            elif cmd.startswith("dgl"):
+                parts = cmd.split()
+                sub_cmd = parts[1] if len(parts) > 1 else "default:dGL"
+                gfx = dGL(720, 540, f"dGL ({sub_cmd})")
+                gpuPrint(f"[dGL.py]: running {sub_cmd} demo...")
+
+                # demonstration part
+                def demo(gfx):
+                    if sub_cmd == "demo1":
+                        gfx.dglDrawRect(100, 100, 150, 80, (255, 100, 0))
+                    elif sub_cmd == "demo2":
+                        gfx.dglDrawCircle(320, 240, 80, (0, 255, 200))
+                    else:
+                        gfx.dglDrawRect(200, 300, 120, 60, (200, 100, 255))
+                gfx.dglRun(demo)
             elif cmd.startswith("pacman:trit") or cmd.startswith("pacman"):
                 parts=cmd.replace("pacman:trit","pacman").strip().split()
                 if len(parts) < 2:
