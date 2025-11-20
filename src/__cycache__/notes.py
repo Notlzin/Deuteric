@@ -4,4 +4,5 @@
 # and also this .py file is kinda useless LOL :sob: :pray: :wilted_rose:
 
 if __name__ == "__main__":
+    # why did i add this comment
     print("you try running this, even if its useless but hey atleast its runnable")

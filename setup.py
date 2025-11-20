@@ -1,9 +1,9 @@
-# setup.py #
+# setup.py
 from setuptools import setup, Extension
 from Cython.Build import cythonize
 import os
 
-# modules list #
+# modules list
 extensions = [
     Extension("src.kernel", ["src/kernel.pyx"]),
     Extension("src.procman", ["src/procman.pyx"]),
@@ -31,5 +31,5 @@ setup(
     packages=["src"],
 )
 
-# to run: python setup.py build_ext --inplace #
-# this is prob UNUSED LOL #
+# to run: python setup.py build_ext --inplace
+# this is prob UNUSED LOL

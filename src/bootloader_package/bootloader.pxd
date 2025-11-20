@@ -1,5 +1,6 @@
 # GPT-5mini bootloader.pxd LOL #
 # bootloader.pxd #
+# useless.
 
 cdef class Bootloader:
     # attributes #
@@ -10,11 +11,11 @@ cdef class Bootloader:
     cdef str kernelModule
 
     # methods #
-    cpdef void bootMsg(self, str msg, double d)
-    cpdef void runBIOS(self)
-    cpdef void runPost(self)
-    cpdef object loadKernel(self)
-    cpdef void startKernel(self)
+    cpdef void bootMsg(self, str msg, double d) # type: ignore
+    cpdef void runBIOS(self) # type: ignore
+    cpdef void runPost(self) # type: ignore
+    cpdef object loadKernel(self) # type: ignore
+    cpdef void startKernel(self) # type: ignore
 
 # also declare the top-level Boot function #
 cpdef Boot()

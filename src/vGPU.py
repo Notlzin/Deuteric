@@ -39,7 +39,7 @@ class vGPU:
             self.cursorY = self.height - 1
 
     def receive(self,value):
-        # receive a byte (integer) or str from vCPU and render it #
+        # receive a byte (integer) or str from vCPU and render it
         if isinstance(value,int):
             char=chr(value&0xFF)
         else:

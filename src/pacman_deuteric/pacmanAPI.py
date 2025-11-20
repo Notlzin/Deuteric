@@ -1,5 +1,5 @@
 # the API for pacman.pyx #
-# pacmanAPI.py #
+# pacmanAPI.py
 import sys
 sys.path.append(r"D:/Deuteric/src/pacman_deuteric/")
 

@@ -1,12 +1,12 @@
 # vCPU.py #
-# obviously vibe coded and pushed GPT into a huge stress test #
+# obviously vibe coded and pushed GPT into a huge stress test
 from array import array
 from vGPU import vGPU
 
 class vCPU:
     __slots__ = ("registers", "pc", "sp", "flags", "memory", "devices", "halted")
     def __init__(self, memSize=256):
-        # 8-bit registers #
+        # 8-bit registers
         self.registers = array('B', [0] * 4)
         self.pc = 0
         self.sp = memSize - 1
@@ -37,11 +37,11 @@ class vCPU:
             opcode = mem[pc]
             pc += 1
 
-            # HLT #
+            # HLT
             if opcode == 0x01:
                 self.halted = True
 
-            # LOAD #
+            # LOAD
             elif opcode == 0x10:
                 reg = mem[pc]
                 val = mem[pc + 1]
@@ -49,7 +49,7 @@ class vCPU:
                 flags["Z"] = int(val == 0)
                 pc += 2
 
-            # MOV #
+            # MOV
             elif opcode == 0x11:
                 regDst = mem[pc]
                 regSrc = mem[pc + 1]
@@ -58,7 +58,7 @@ class vCPU:
                 flags["Z"] = int(val == 0)
                 pc += 2
 
-            # ADD #
+            # ADD
             elif opcode == 0x20:
                 regDst = mem[pc]
                 regSrc = mem[pc + 1]
@@ -69,7 +69,7 @@ class vCPU:
                 flags["Z"] = int(res == 0)
                 pc += 2
 
-            # SUB #
+            # SUB
             elif opcode == 0x21:
                 regDst = mem[pc]
                 regSrc = mem[pc + 1]
@@ -80,11 +80,11 @@ class vCPU:
                 flags["Z"] = int(res == 0)
                 pc += 2
 
-            # JMP #
+            # JMP
             elif opcode == 0x30:
                 pc = mem[pc]
 
-            # JZ #
+            # JZ
             elif opcode == 0x31:
                 addr = mem[pc]
                 if flags["Z"]:
@@ -92,7 +92,7 @@ class vCPU:
                 else:
                     pc += 1
 
-            # OUT #
+            # OUT
             elif opcode == 0x40:
                 reg = mem[pc]
                 name_len = mem[pc + 1]
@@ -108,16 +108,16 @@ class vCPU:
                 print(f"[vCPU]: unknown opcode 0x{opcode:02X} at PC={pc-1}")
                 self.halted = True
 
-        self.pc = pc  # save back pc[program counter] #
+        self.pc = pc  # save back pc[program counter]
 
-# encoding the commands into hexadecimal #
+# encoding the commands into hexadecimal
 def encodeCMD(cpu, cmd: str, reg=0, deviceName="GPU"):
     # preallocation part #
     cmdLen = len(cmd)
     hexCMD =  bytearray(cmdLen+1)
     for i in range(cmdLen):
-        hexCMD[i] = ord(cmd[i])  # store integer (0 to 255 for 8 bit because 2^8) #
-    hexCMD[cmdLen] = 0 # string terminator handler #
+        hexCMD[i] = ord(cmd[i])  # store integer (0 to 255 for 8 bit because 2^8)
+    hexCMD[cmdLen] = 0 # string terminator handler
 
     # build hex strings (ofcourse joined) #
     hexString = ' '.join(f'0x{b:02X}' for b in hexCMD)
@@ -136,4 +136,4 @@ if __name__ == "__main__":
     cpu.connectDevice("GPU", gpu)
 
     cmd = "help"
-    encodeCMD(cpu, cmd) # prints on hex and on vGPU #
+    encodeCMD(cpu, cmd) # prints on hex and on vGPU

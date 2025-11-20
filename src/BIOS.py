@@ -1,4 +1,4 @@
-# BIOS.py #
+# BIOS.py
 class BIOS:
     def __init__(self, cpu, devices=None):
         self.cpu = cpu
@@ -54,7 +54,7 @@ class BIOS:
         self.fakeInstallation()
         self.bootOS()
 
-# usage cases for this bios.py and in bootloader.pyx #
+# usage cases for this bios.py and in bootloader.pyx
 if __name__ == "__main__":
     from vCPU import vCPU
     from vGPU import vGPU

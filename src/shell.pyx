@@ -93,7 +93,8 @@ def launchShell():
             elif cmd == "ps":
                 simulateCPUUsage()
                 for p in processes:
-                    gpuPrint(f"{p.pid:02d} {p.name} CPU:{p.cpu_usage}%")
+                    # used normal print in order to print normally :sob:
+                    print(f"{p.pid:02d} {p.name} CPU:{p.cpu_usage}%")
             elif cmd == "mem":
                 gpuPrint(f"memory-usage: {usedMem}/{totalMem} MB")
             elif cmd.startswith("ls "):
@@ -101,7 +102,7 @@ def launchShell():
                 if folderName:
                     ls(folderName)
                 else:
-                    ls("") # empty thing WOOHOO #
+                    ls("") # empty thing WOOHOO
             elif cmd.startswith("mkdir "):
                 folderName = cmd[len("mkdir "):].strip()
                 if folderName:
@@ -115,7 +116,7 @@ def launchShell():
                 else:
                     gpuPrint("cd_err: missing operand")
             elif cmd == "exit":
-                gpuPrint("[shell.pyx -> kernel.pyx] shutting down the kernel...")
+                print("[shell.pyx -> kernel.pyx] shutting down the kernel...")
                 sys.exit(0)
             elif cmd.startswith("dgl"):
                 parts = cmd.split()

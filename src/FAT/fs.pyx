@@ -13,11 +13,22 @@ cdef class Directory:
         self.Dirs = []
         self.parentDir = parentDir
 
-# root dir #
+# root dir
 cdef Directory root = Directory("/")
 
-# current working dir (cwd) #
+# current working dir (cwd)
 cdef Directory cwd = root
+
+# accessor functions
+cpdef Directory getRoot():
+    return root
+
+cpdef Directory getCwd():
+    return cwd
+
+cpdef void setCwd(Directory new_cwd):
+    global cwd
+    cwd = new_cwd
 
 # dir ops #
 cpdef void mkdir(str Name):
